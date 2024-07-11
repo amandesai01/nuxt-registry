@@ -1,0 +1,23 @@
+{
+  "name": "nuxtregistry",
+  "version": "1.0.0",
+  "description": "A public registry for Nuxt Modules",
+  "main": "index.js",
+  "repository": "https://github.com/amandesai01/nuxtregistry",
+  "author": "amandesai01 <amandesai01@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "jiti": "jiti"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "jiti": "^1.21.6"
+  },
+  "dependencies": {
+    "@octokit/rest": "^21.0.0",
+    "defu": "^6.1.4",
+    "js-yaml": "^4.1.0",
+    "ofetch": "^1.3.4",
+    "parse-git-diff": "^0.0.15"
+  }
+}
