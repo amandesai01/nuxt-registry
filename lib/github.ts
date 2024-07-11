@@ -1,7 +1,7 @@
 import { Octokit } from '@octokit/rest';
 import { ofetch } from 'ofetch';
 
-const GITHUB_PAT = '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'
+const GITHUB_PAT = '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';
 
 const gh = new Octokit({
   auth: GITHUB_PAT,
@@ -21,11 +21,13 @@ export async function getApprovedPRs(approverList: string[]) {
   ).data;
 
   const openPRCommentsList: any[] = await Promise.all(
-    openPRs.map(n => ofetch(n.comments_url, {
-      headers: {
-        Authorization: `Bearer ${GITHUB_PAT}`
-      }
-    })),
+    openPRs.map(n =>
+      ofetch(n.comments_url, {
+        headers: {
+          Authorization: `Bearer ${GITHUB_PAT}`,
+        },
+      }),
+    ),
   );
 
   const approvedPRs: typeof openPRs = [];
@@ -33,8 +35,9 @@ export async function getApprovedPRs(approverList: string[]) {
   for (let index = 0; index < openPRCommentsList.length; index++) {
     const openPRComments = openPRCommentsList[index];
     const approvalIndex = openPRComments.findIndex(
-      openPRComment => approverSet.has(openPRComment.user.login),
-      // openPRComment.body.includes(APPROVAL_MESSAGE),
+      openPRComment =>
+        approverSet.has(openPRComment.user.login) &&
+        openPRComment.body.includes(APPROVAL_MESSAGE),
     );
 
     if (approvalIndex != -1) {
