@@ -1,0 +1,1 @@
+This folder contains code migrated from `nuxt/modules` github repository.
