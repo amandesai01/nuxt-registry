@@ -14,6 +14,9 @@ export default defineNuxtConfig({
       },
     },
   },
+  routeRules: {
+    "/": { prerender: true },
+  },
   googleFonts: {
     families: {
       Raleway: [400, 500, 600, 700],
@@ -23,5 +26,5 @@ export default defineNuxtConfig({
   },
   ssr: true,
   srcDir: 'app',
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', 'nuxt-icon'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts'],
 });

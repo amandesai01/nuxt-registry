@@ -3,10 +3,6 @@ import { ofetch } from 'ofetch';
 
 const GITHUB_PAT = process.env.GITHUB_PAT;
 
-if (!GITHUB_PAT) {
-  throw new Error('Missing github pat');
-}
-
 const gh = new Octokit({
   auth: GITHUB_PAT,
 });
@@ -14,6 +10,10 @@ const gh = new Octokit({
 export const APPROVAL_MESSAGE = 'LGTM';
 
 export async function getApprovedPRs(approverList: string[]) {
+  if (!GITHUB_PAT) {
+    throw new Error('Missing github pat');
+  }
+  
   const approverSet = new Set(approverList);
 
   const openPRs = (
