@@ -30,6 +30,10 @@ export async function generateModuleInfo(rawYmlContents: string, prNumber: numbe
       nuxt: '^2.0.0',
       requires: {},
     },
+    downloads: 0,
+    stars: 0,
+    source: 'community-registry',
+    approvedBy: approver,
   };
 
   const mod = defu(ymlContents, defuMod);
@@ -43,7 +47,39 @@ export async function generateModuleInfo(rawYmlContents: string, prNumber: numbe
     );
   }
 
+  mod.source = 'community-registry';
+
   const pkg = await fetchGithubPkg(mod.repo);
+
+  try {
+    // Takes care of case: amandesai01/nuxt-registry#main/module
+    const repoDetails = mod.repo.includes('#')
+      ? mod.repo.split('#')[0].split('/')
+      : mod.repo.split('/');
+    const stars = await getStars(repoDetails[1], repoDetails[0]);
+    mod.stars = stars;
+  } catch (error) {
+    console.error(
+      'Module stars cannot be fetched. YML Contents: ' +
+        rawYmlContents +
+        ' PR Number: ' +
+        prNumber,
+      error,
+    );
+  }
+
+  try {
+    const downloads = await fetchNPMDownloads(mod.npm);
+    mod.downloads = downloads;
+  } catch (error) {
+    console.error(
+      'Module downloads cannot be fetched. YML Contents: ' +
+        rawYmlContents +
+        ' PR Number: ' +
+        prNumber,
+      error,
+    );
+  }
 
   // Auto name
   if (!mod.name) {
