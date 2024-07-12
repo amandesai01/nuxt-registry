@@ -4,6 +4,10 @@ export function fetchPKG(name) {
   return ofetch('http://registry.npmjs.org/' + name)
 }
 
+export async function fetchNPMDownloads(name: string, period: string = 'last-month') {
+  return (await ofetch(`https://api.npmjs.org/downloads/point/${period}/${name}`)).downloads as number;
+}
+
 export function fetchRawGithub(path) {
   return ofetch('https://raw.githubusercontent.com/' + path, { responseType: 'json' })
 }
