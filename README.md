@@ -10,13 +10,13 @@
 </div>
 
 ### How does it work?
-1. Repo scans for open PRs in (nuxt/modules)[https://github.com/nuxt/modules/pulls].
+1. Repo scans for open PRs in [nuxt/modules](https://github.com/nuxt/modules/pulls).
 2. For each open PR, it looks for comment with approval message "LGTM" from verified approvers.
 3. If approval comment found, it publishes the module in the registry without a verification badge (green tick).
 4. All the modules published officially by Nuxt community get a verfied badge (green tick).
 
 ### Reporting Spams [WIP]
-Create a PR updating the (list of blocked NPM packages)[https://github.com/amandesai01/nuxt-registry/tree/main/lib/etc/blacklist.ts]. Once verified by admins, the corresponding module will be banned.
+Create a PR updating the [list of blocked NPM packages](https://github.com/amandesai01/nuxt-registry/tree/main/lib/etc/blacklist.ts). Once verified by admins, the corresponding module will be banned.
 
 ### Becoming an approver
-Create a PR adding your Github ID in (approvers list)[https://github.com/amandesai01/nuxt-registry/tree/main/lib/etc/approvers.ts]. If you have already published modules / have Nuxter badge or just a convincing Github profile, you will be added as approvers.
+Create a PR adding your Github ID in [approvers list](https://github.com/amandesai01/nuxt-registry/tree/main/lib/etc/approvers.ts). If you have already published modules / have Nuxter badge or just a convincing Github profile, you will be added as approvers.
