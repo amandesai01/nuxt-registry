@@ -70,7 +70,7 @@ watch(selectedCategory, (s) => {
             clip-rule="evenodd" />
         </svg>
       </label> -->
-      <CategorySelector :selected-category="selectedCategory" @category-selected="(s) => selectedCategory = s" />
+      <CategorySelector class="ml-3":selected-category="selectedCategory" @category-selected="(s) => selectedCategory = s" />
     </div>
   </section>
   <section class="flex w-full justify-center">
