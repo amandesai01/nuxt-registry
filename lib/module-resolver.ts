@@ -2,10 +2,15 @@ import * as yml from 'js-yaml';
 
 import type { ModuleInfo } from './nuxt-modules/types';
 import defu from 'defu';
-import { fetchGithubPkg } from './nuxt-modules/utils';
+import { fetchGithubPkg, fetchNPMDownloads } from './nuxt-modules/utils';
 import { categories } from './nuxt-modules/categories';
+import { getStars } from './github';
 
-export async function generateModuleInfo(rawYmlContents: string, prNumber: number) {
+export async function generateModuleInfo(
+  rawYmlContents: string,
+  prNumber: number,
+  approver: string,
+) {
   let ymlContents: object;
   try {
     ymlContents = yml.load(rawYmlContents) as object;
@@ -136,8 +141,55 @@ export async function generateModuleInfo(rawYmlContents: string, prNumber: numbe
 
   // Default description
   if (!mod.description) {
-    mod.description = pkg.description
+    mod.description = pkg.description;
   }
 
   return mod;
+}
+
+export async function mergeModules(
+  communityApprovedModules: ModuleInfo[],
+  officiallyApprovedModulesRaw: ModuleInfo[],
+) {
+  const officiallyApprovedModules = await Promise.all(
+    officiallyApprovedModulesRaw.map(async mod => {
+      try {
+        // Takes care of case: amandesai01/nuxt-registry#main/module
+        const repoDetails = mod.repo.includes('#')
+          ? mod.repo.split('#')[0].split('/')
+          : mod.repo.split('/');
+        const stars = await getStars(repoDetails[1], repoDetails[0]);
+        mod.stars = stars;
+      } catch (error) {
+        console.error('Module stars cannot be fetched: ' + mod.name, error);
+      }
+
+      try {
+        const downloads = await fetchNPMDownloads(mod.npm);
+        mod.downloads = downloads;
+      } catch (error) {
+        console.error('Module downloads cannot be fetched: ' + mod.name, error);
+      }
+
+      return mod;
+    }),
+  );
+
+  const officiallyApprovedModulesNpmIdSet = new Set<string>(
+    officiallyApprovedModules.map(m => m.npm),
+  );
+
+  const finalModuleList: ModuleInfo[] = [...officiallyApprovedModules];
+
+  for (let index = 0; index < communityApprovedModules.length; index++) {
+    const communityApprovedModule = communityApprovedModules[index];
+
+    if (officiallyApprovedModulesNpmIdSet.has(communityApprovedModule.npm)) {
+      continue;
+    }
+    
+    finalModuleList.push(communityApprovedModule);
+  }
+
+  return finalModuleList;
 }

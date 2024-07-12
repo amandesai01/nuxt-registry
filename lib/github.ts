@@ -30,7 +30,7 @@ export async function getApprovedPRs(approverList: string[]) {
     ),
   );
 
-  const approvedPRs: typeof openPRs = [];
+  const approvedPRs: [typeof openPRs[0], string][] = [];
 
   for (let index = 0; index < openPRCommentsList.length; index++) {
     const openPRComments = openPRCommentsList[index];
@@ -41,7 +41,7 @@ export async function getApprovedPRs(approverList: string[]) {
     );
 
     if (approvalIndex != -1) {
-      approvedPRs.push(openPRs[index]);
+      approvedPRs.push([openPRs[index], openPRComments[approvalIndex].user.login as string]);
     }
   }
 
@@ -50,4 +50,13 @@ export async function getApprovedPRs(approverList: string[]) {
 
 export function getPRDiff(diffURL: string) {
   return ofetch<string>(diffURL);
+}
+
+export async function getStars(repo: string, owner: string) {
+  return (
+    await gh.repos.get({
+      repo,
+      owner,
+    })
+  ).data.stargazers_count;
 }
