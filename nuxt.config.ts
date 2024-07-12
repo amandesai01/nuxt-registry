@@ -23,5 +23,5 @@ export default defineNuxtConfig({
   },
   ssr: true,
   srcDir: 'app',
-  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', 'nuxt-orama', 'nuxt-icon'],
+  modules: ['@nuxtjs/tailwindcss', '@nuxtjs/google-fonts', 'nuxt-icon'],
 });
