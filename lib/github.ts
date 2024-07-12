@@ -1,7 +1,11 @@
 import { Octokit } from '@octokit/rest';
 import { ofetch } from 'ofetch';
 
-const GITHUB_PAT = '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';
+const GITHUB_PAT = process.env.GITHUB_PAT;
+
+if (!GITHUB_PAT) {
+  throw new Error('Missing github pat');
+}
 
 const gh = new Octokit({
   auth: GITHUB_PAT,
@@ -30,18 +34,22 @@ export async function getApprovedPRs(approverList: string[]) {
     ),
   );
 
-  const approvedPRs: [typeof openPRs[0], string][] = [];
+  const approvedPRs: [(typeof openPRs)[0], string][] = [];
 
   for (let index = 0; index < openPRCommentsList.length; index++) {
     const openPRComments = openPRCommentsList[index];
     const approvalIndex = openPRComments.findIndex(
+      // @ts-ignore
       openPRComment =>
         approverSet.has(openPRComment.user.login) &&
         openPRComment.body.includes(APPROVAL_MESSAGE),
     );
 
     if (approvalIndex != -1) {
-      approvedPRs.push([openPRs[index], openPRComments[approvalIndex].user.login as string]);
+      approvedPRs.push([
+        openPRs[index],
+        openPRComments[approvalIndex].user.login as string,
+      ]);
     }
   }
 
