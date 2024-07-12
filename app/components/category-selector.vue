@@ -16,7 +16,7 @@ const categorySelected = (c: string) => {
 
 <template>
   <div class="dropdown dropdown-end">
-    <div tabindex="0" role="button" class="btn btn-sm rounded btn-ghost btn-outline m-1">Filter By Category<Icon name="mingcute:down-fill"/></div>
+    <div tabindex="0" role="button" class="btn btn-sm rounded btn-ghost btn-outline m-1">Filter By Category<DownIcon class="w-4 h-4"/></div>
     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-1 shadow border border-zinc-700">
       <li :class="selectedCategory == 'All' ? 'font-bold text-green-500' : ''"><button
           @click="categorySelected('All')">{{ "All" }}</button></li>

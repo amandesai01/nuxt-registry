@@ -35,15 +35,15 @@ watch(selectedCategory, (s) => {
 <template>
   <section class="navbar bg-base-100">
     <div class="flex-1">
-      <a class="btn btn-ghost text-xl">
-        <Icon name="logos:nuxt-icon" />Nuxt Registry<div class="badge badge-neutral">community</div>
+      <a class="btn btn-ghost text-sm lg:text-xl">
+        <NuxtIcon class="w-3 h-3 lg:w-6 lg:h-6"/>Nuxt Registry<div class="badge badge-neutral hidden lg:block">community</div>
       </a>
     </div>
     <div class="flex-none">
       <ul class="menu menu-horizontal px-1">
         <li>
           <a class="flex" href="https://twitter.com/aman_desai_">
-            <Icon name="mdi:twitter" class=" w-4 h-4" /> Follow me on Twitter!
+            <TwitterIcon class="w-3 h-3 lg:w-4 lg:h-4" /> Follow me on Twitter!
           </a>
         </li>
       </ul>
@@ -52,14 +52,14 @@ watch(selectedCategory, (s) => {
   <div class="hero mt-3">
     <div class="hero-content text-center">
       <div class="max-w-md">
-        <span class="text-xl font-bold">A community-driven registry of Nuxt modules.</span>
-        <button class="btn btn-sm btn-primary mt-3">
-          <Icon name="mdi:github" class=" w-6 h-6" /> Star on Github
-        </button>
+        <div class="text-xl font-bold">A community-driven registry of Nuxt modules.</div>
+        <a href="https://github.com/amandesai01/nuxt-registry" class="btn btn-sm btn-primary mt-3">
+          <GithubIcon name="mdi:github" class="w-5 h-5" /> Star on Github
+        </a>
       </div>
     </div>
   </div>
-  <section class="flex w-full justify-center">
+  <section class="flex w-full justify-center mt-3">
     <div class="flex space-x-2 w-2/3 items-center">
       <!-- TODO: add search functionality -->
       <!-- <label class="input input-bordered flex items-center gap-2 w-1/2">
@@ -74,8 +74,8 @@ watch(selectedCategory, (s) => {
     </div>
   </section>
   <section class="flex w-full justify-center">
-    <div class="grid grid-cols-12 w-2/3">
-      <div class="col-span-4 flex justify-center m-2" v-for="mod in modules" :key="mod.npm">
+    <div class="grid grid-cols-12 w-11/12 lg:w-2/3">
+      <div class="col-span-12 lg:col-span-4 flex justify-center m-2" v-for="mod in modules" :key="mod.npm">
         <ModuleCard class="col-span-4" :module="mod" />
       </div>
     </div>
