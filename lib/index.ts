@@ -1,11 +1,11 @@
 import { getApprovedPRs, getPRDiff } from './github';
 import { getAddedFile } from "./diff-analysis";
 import approvers from './etc/approvers';
-import { ModuleInfo } from './nuxt-modules/types';
+import type { ModuleInfo } from './nuxt-modules/types';
 import { generateModuleInfo, mergeModules } from './module-resolver';
 import { getNuxtPublishedModules } from './official-modules';
 
-async function run() {
+export async function getAllModules() {
   const approvedPRs = await getApprovedPRs(approvers);
 
   console.log(`Found ${approvedPRs.length} approved PRs`);
@@ -28,7 +28,7 @@ async function run() {
     }
 
     try {
-      const module = await generateModuleInfo(ymlFile, approvedPR[0].number, approvedPR[1]);
+      const module = await generateModuleInfo(ymlFile as string, approvedPR[0].number, approvedPR[1]);
       modules.push(module);
     } catch (error) {
       console.error(`######### Error Generating Module For #${approvedPR[0].number} #########`)
@@ -41,9 +41,5 @@ async function run() {
 
   const finalModuleList = await mergeModules(modules, officiallyApprovedModulesRaw);
 
-  console.log(finalModuleList);
-
   return finalModuleList;
 }
-
-run();
